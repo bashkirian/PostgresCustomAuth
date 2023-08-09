@@ -172,11 +172,10 @@ void HTTPDigestCredentials::authenticate(clients::http::Request& request, const 
 	authenticate(request, HTTPAuthenticationParams(response));
 }
 
-// аутентификация с распарсенными параметрами аутентификации
+// создание запроса аутентификации с распарсенными параметрами аутентификации из ответа сервера
 void HTTPDigestCredentials::authenticate(clients::http::Request& request, const HTTPAuthenticationParams& responseAuthParams)
 {
 	createAuthParams(request, responseAuthParams);
-	// ??
 	request.setCredentials(SCHEME, _requestAuthParams.toString());
 }
 
@@ -184,7 +183,6 @@ void HTTPDigestCredentials::authenticate(clients::http::Request& request, const 
 void HTTPDigestCredentials::updateAuthInfo(clients::http::Request& request)
 {
 	updateAuthParams(request);
-	// 
 	request.setCredentials(SCHEME, _requestAuthParams.toString());
 }
 

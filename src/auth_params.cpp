@@ -85,6 +85,7 @@ void HTTPAuthenticationParams::fromAuthInfo(const std::string& authInfo)
 	parse(authInfo.begin(), authInfo.end());
 }
 
+// получить схему аутентификации и все директивы 
 void getCredentials(server::http::HttpRequest& request, std::string scheme, std::string authInfo) {
 	scheme.clear();
 	authInfo.clear();
@@ -101,13 +102,13 @@ void getCredentials(server::http::HttpRequest& request, std::string scheme, std:
 	else throw NotAuthenticatedException();
 }
 
+// парсинг запроса авторизации с клиента
 void HTTPAuthenticationParams::fromRequest(const server::http::HttpRequest& request)
 {
 	std::string scheme;
 	std::string authInfo;
 
 	// get authorization scheme name and all followed information
-	getCredentials(scheme, authInfo);
 	request.getCredentials(scheme, authInfo);
 
 	if (icompare(scheme, "Digest") != 0)
@@ -116,7 +117,7 @@ void HTTPAuthenticationParams::fromRequest(const server::http::HttpRequest& requ
 	fromAuthInfo(authInfo);
 }
 
-/// ???
+/// парсинг ответа аутентификации с сервера
 void HTTPAuthenticationParams::fromResponse(const server::http::HttpResponse& response, const std::string& header)
 {
 	NameValueCollection::ConstIterator it = response.find(header);
